@@ -6,39 +6,34 @@ import Products from "./components/Products";
 import Cart from "./components/Cart";
 
 function App() {
-  const [hideHome, setHideHome] = useState(true);
-  const [hideProducts, setHideProducts] = useState(false);
-  const [hideCart, setHideCart] = useState(false);
+  const [product, setProduct] = useState({
+    name: "sweater",
+    price: 48,
+    description: "Ut fugiat minim qui voluptate culpa.",
+  });
 
-  function home() {
-    setHideHome(true);
-    setHideProducts(false);
-    setHideCart(false);
-  }
+  const [showComponent, setShowComponent] = useState(1);
 
-  function products() {
-    setHideHome(false);
-    setHideProducts(true);
-    setHideCart(false);
-  }
+  const [purchased, setPurchased] = useState({});
 
-  function cart() {
-    setHideHome(false);
-    setHideProducts(false);
-    setHideCart(true);
+  function addItem(purchasedData) {
+    setPurchased(purchasedData);
+    console.log(purchased);
   }
 
   return (
     <div>
       <ul className="navBar">
         <li></li>
-        <li onClick={home}>Home</li>
-        <li onClick={products}>Products</li>
-        <li onClick={cart}>Cart</li>
+        <li onClick={() => setShowComponent(1)}>Home</li>
+        <li onClick={() => setShowComponent(2)}>Products</li>
+        <li onClick={() => setShowComponent(3)}>Cart</li>
       </ul>
-      <div>{hideHome && <Home />}</div>
-      <div>{hideProducts && <Products />}</div>
-      <div>{hideCart && <Cart />}</div>
+      <div>{showComponent==1 && <Home />}</div>
+      <div>
+        {showComponent==2 && <Products onPurchase={addItem} data={product} />}
+      </div>
+      <div>{showComponent==3 && <Cart items={purchased} />}</div>
     </div>
   );
 }
