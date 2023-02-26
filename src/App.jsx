@@ -12,6 +12,8 @@ function App() {
     description: "Ut fugiat minim qui voluptate culpa.",
   });
 
+  const [products, setProducts] = useState([]);
+
   const [showComponent, setShowComponent] = useState(1);
 
   const [purchased, setPurchased] = useState({});
@@ -21,6 +23,17 @@ function App() {
     console.log(purchased);
   }
 
+  // useEffect(() => {
+  //   axios
+  //     .get("https://pokeapi.co/api/v2/pokemon")
+  //     .then((res) => {
+  //       setProducts(res.data.results);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
+
   return (
     <div>
       <ul className="navBar">
@@ -29,11 +42,11 @@ function App() {
         <li onClick={() => setShowComponent(2)}>Products</li>
         <li onClick={() => setShowComponent(3)}>Cart</li>
       </ul>
-      <div>{showComponent==1 && <Home />}</div>
+      <div>{showComponent == 1 && <Home />}</div>
       <div>
-        {showComponent==2 && <Products onPurchase={addItem} data={product} />}
+        {showComponent == 2 && <Products onPurchase={addItem} data={product} />}
       </div>
-      <div>{showComponent==3 && <Cart items={purchased} />}</div>
+      <div>{showComponent == 3 && <Cart items={purchased} />}</div>
     </div>
   );
 }

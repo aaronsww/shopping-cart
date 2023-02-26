@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import { useState } from "react";
 
-function Cart() {
-  return (
-    <div>Cart</div>
-  )
+function Cart({ items }) {
+  return <div>{items.name}</div>;
 }
 
-export default Cart
+export default Cart;
