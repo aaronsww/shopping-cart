@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 
+import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import Products from "./components/Products";
 import Cart from "./components/Cart";
@@ -12,8 +14,6 @@ function App() {
     description: "Ut fugiat minim qui voluptate culpa.",
   });
 
-  // const [showComponent, setShowComponent] = useState(1);
-
   const [purchased, setPurchased] = useState({});
 
   function addItem(purchasedData) {
@@ -21,27 +21,30 @@ function App() {
     console.log(purchased);
   }
 
-  // useEffect(() => {
-  //   axios
-  //     .get("https://pokeapi.co/api/v2/pokemon")
-  //     .then((res) => {
-  //       setProducts(res.data.results);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
   return (
-    <div>
-      {/*      
-      <div>{showComponent == 1 && <Home />}</div>
-      <div>
-        {showComponent == 2 && <Products onPurchase={addItem} data={product} />}
-      </div>
-      <div>{showComponent == 3 && <Cart items={purchased} />}</div> */}
-    </div>
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route
+          path="/products"
+          element={<Products onPurchase={addItem} data={product} />}
+        />
+        <Route path="/cart" element={<Cart items={purchased} />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
+// useEffect(() => {
+//   axios
+//     .get("https://pokeapi.co/api/v2/pokemon")
+//     .then((res) => {
+//       setProducts(res.data.results);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// }, []);
 
 export default App;
