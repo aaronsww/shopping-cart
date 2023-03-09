@@ -5,7 +5,7 @@ function Products({ onPurchase, data }) {
   const list = data.map((eachProduct) => {
     return (
       <div>
-       
+        <img className="" src={eachProduct.image} alt="" />
         <ul>
           <li> name: {eachProduct.title}</li>
           <li> price: ${eachProduct.price}</li>
