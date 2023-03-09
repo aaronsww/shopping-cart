@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 
@@ -8,13 +9,21 @@ import Products from "./components/Products";
 import Cart from "./components/Cart";
 
 function App() {
-  const [product, setProduct] = useState({
-    name: "sweater",
-    price: 48,
-    description: "Ut fugiat minim qui voluptate culpa.",
-  });
+  const [product, setProduct] = useState([]);
 
-  const [purchased, setPurchased] = useState({});
+  useEffect(() => {
+    axios
+      .get("https://fakestoreapi.com/products")
+      .then((res) => {
+        console.log(res.data);
+        setProduct(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const [purchased, setPurchased] = useState([]);
 
   function addItem(purchasedData) {
     setPurchased(purchasedData);

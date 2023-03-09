@@ -4,7 +4,7 @@ import { useState } from "react";
 function Cart({ items }) {
   return <div>
     <div>Cart</div>
-    {items.name}</div>;
+    {items.title}</div>;
 }
 
 export default Cart;
