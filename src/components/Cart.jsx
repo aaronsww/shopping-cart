@@ -2,9 +2,7 @@ import React from "react";
 import { useState } from "react";
 
 function Cart({ items, totalPrice }) {
-
-  const [total, setTotal] = useState(0);
-
+   
   const cartList = items.map((eachItem) => {
     return (
       <ul>

@@ -29,7 +29,7 @@ function App() {
   function addItem(purchasedData) {
     setPurchased([...purchased, purchasedData]);
     console.log(purchased);
-    setTotal(setTotal + purchasedData.price);
+    setTotal(total + purchasedData.price);
   }
 
   return (
