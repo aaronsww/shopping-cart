@@ -9,7 +9,7 @@ function Products({ onPurchase, data }) {
         <li> name: {eachProduct.title}</li>
         <li> price: ${eachProduct.price}</li>
         <li>description: {eachProduct.description}</li>
-        <li onClick={() => onPurchase(eachProduct)}>Add to Cart</li>
+        <h3 onClick={() => onPurchase(eachProduct)}>Add to Cart</h3>
       </ul>
       )
   });

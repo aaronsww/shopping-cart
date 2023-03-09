@@ -24,10 +24,12 @@ function App() {
   }, []);
 
   const [purchased, setPurchased] = useState([]);
+  const [total, setTotal] = useState(0);
 
   function addItem(purchasedData) {
-    setPurchased(purchasedData);
+    setPurchased([...purchased, purchasedData]);
     console.log(purchased);
+    setTotal(setTotal + purchasedData.price);
   }
 
   return (
@@ -40,7 +42,10 @@ function App() {
           path="/products"
           element={<Products onPurchase={addItem} data={product} />}
         />
-        <Route path="/cart" element={<Cart items={purchased} />} />
+        <Route
+          path="/cart"
+          element={<Cart items={purchased} totalPrice={total} />}
+        />
       </Routes>
     </BrowserRouter>
   );
