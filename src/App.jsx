@@ -28,7 +28,7 @@ function App() {
 
   function addItem(purchasedData) {
     setPurchased([...purchased, purchasedData]);
-    console.log(purchased);
+    // console.log(purchased);
     setTotal(total + purchasedData.price);
   }
 
@@ -44,21 +44,13 @@ function App() {
         />
         <Route
           path="/cart"
-          element={<Cart items={purchased} totalPrice={total} />}
+          element={
+            <Cart onPurchase={addItem} items={purchased} totalPrice={total} />
+          }
         />
       </Routes>
     </BrowserRouter>
   );
 }
-// useEffect(() => {
-//   axios
-//     .get("https://pokeapi.co/api/v2/pokemon")
-//     .then((res) => {
-//       setProducts(res.data.results);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// }, []);
 
 export default App;
