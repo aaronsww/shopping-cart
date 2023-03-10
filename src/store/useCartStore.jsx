@@ -2,11 +2,20 @@ import { create } from "zustand";
 
 const useCartStore = create((set) => ({
   products: [],
-  setProducts: (products) =>
+  setProducts: (newData) =>
     set((state) => ({
-      ...state,
-      products,
+      products: newData,
     })),
+  cart: [],
+  setCart: (newData) =>
+    set((state) => ({
+      cart: newData,
+    })),
+  price: 0,
+  increasePrice: (addedPrice) =>
+    set((state) => ({ price: state.price + addedPrice })),
+  decreasePrice: (addedPrice) =>
+    set((state) => ({ price: state.price - addedPrice })),
 }));
 
 export default useCartStore;
