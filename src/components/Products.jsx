@@ -4,8 +4,6 @@ import useCartStore from "../store/useCartStore";
 import axios from "axios";
 
 function Products() {
-  // { onPurchase, data } props
-
   const products = useCartStore((state) => state.products);
   const setProducts = useCartStore((state) => state.setProducts);
 
@@ -31,15 +29,17 @@ function Products() {
     if (!cart.find((item) => item.id === eachProduct.id)) {
       setCart([...cart, eachProduct]);
       increasePrice(eachProduct.price);
-    }
-    else increasePrice(eachProduct.price);
+    } else increasePrice(eachProduct.price);
   }
 
+  let displayProducts = [1,2,3,415,16,17,18,19]
+  const filteredProducts = products.filter((obj) => displayProducts.includes(obj.id));
+
   return (
-    <div>
-      {products.map((eachProduct) => (
-        <div>
-          <img className="h-32" src={eachProduct.image} alt="" />
+    <div className="flex flex-wrap">
+      {filteredProducts.map((eachProduct) => (
+        <div className=" m-5 p-5 w-72 bg-sky-300">
+          <img className=" h-40" src={eachProduct.image} alt="" />
           <ul>
             <li> name: {eachProduct.title}</li>
             <li> price: ${eachProduct.price}</li>
@@ -54,22 +54,6 @@ function Products() {
       ))}
     </div>
   );
-
-  // const list = data.map((eachProduct) => {
-  //   return (
-  //     <div>
-  //       <img className="h-32" src={eachProduct.image} alt="" />
-  //       <ul>
-  //         <li> name: {eachProduct.title}</li>
-  //         <li> price: ${eachProduct.price}</li>
-  //         {/* <li>description: {eachProduct.description}</li> */}
-  //         <h3 className="text-xl font-bold" onClick={() => onPurchase(eachProduct)}>Add to Cart</h3>
-  //       </ul>
-  //     </div>
-  //   );
-  // });
-
-  // return <div>{list}</div>;
 }
 
 export default Products;
