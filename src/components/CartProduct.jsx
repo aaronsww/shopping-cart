@@ -11,8 +11,10 @@ function CartProduct({ eachProduct }) {
   const decreasePrice = useCartStore((state) => state.decreasePrice);
 
   const [localPrice, setLocalPrice] = useState(0);
+  const [count, setCount] = useState(1);
 
   function addToCart(eachProduct) {
+    setCount(count + 1);
     if (!cart.find((item) => item.id === eachProduct.id)) {
       setCart([...cart, eachProduct]);
       increasePrice(eachProduct.price);
@@ -24,6 +26,7 @@ function CartProduct({ eachProduct }) {
   }
 
   function removeFromCart(eachProduct) {
+    setCount(count - 1);
     decreasePrice(eachProduct.price);
     setLocalPrice(localPrice - eachProduct.price);
     if (localPrice === 0) {
@@ -35,25 +38,28 @@ function CartProduct({ eachProduct }) {
   }
 
   return (
-    <div className=" m-5 p-5 w-72 bg-sky-300">
+    <div className="flex m-1 p-1 w-72">
       <img className="h-32" src={eachProduct.image} alt="" />
-      <ul>
-        <li> name: {eachProduct.title}</li>
-        <li> price: ${eachProduct.price}</li>
-      </ul>
-      <div>
-        <button
-          className="bg-sky-500 font-xl p-2"
-          onClick={() => addToCart(eachProduct)}
-        >
-          +
-        </button>
-        <button
-          className="ml-2 bg-sky-500 font-xl p-2"
-          onClick={() => removeFromCart(eachProduct)}
-        >
-          -
-        </button>
+      <div className="flex flex-col justify-center  ">
+        <ul className="flex flex-col justify-between ml-2 ">
+          <li className="text-xs">{eachProduct.title}</li>
+          <li className="font-bold">${eachProduct.price}</li>
+        </ul>
+        <div className="flex justify-center items-center mt-3">
+          <button
+            className="bg-slate-200 hover:bg-slate-300 font-bold text-2xl flex justify-center items-center w-7 h-7 pb-1"
+            onClick={() => removeFromCart(eachProduct)}
+          >
+            -
+          </button>
+          <span className="mx-4 font-bold">{count}</span>
+          <button
+            className="bg-slate-200 hover:bg-slate-300 font-bold text-2xl flex justify-center items-center w-7 h-7 pb-1"
+            onClick={() => addToCart(eachProduct)}
+          >
+            +
+          </button>
+        </div>
       </div>
     </div>
   );

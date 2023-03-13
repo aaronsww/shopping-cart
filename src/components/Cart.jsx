@@ -12,11 +12,12 @@ function Cart() {
   const decreasePrice = useCartStore((state) => state.decreasePrice);
 
   return (
-    <div>
+    <div className="">
       {cart.map((eachProduct) => (
         <CartProduct eachProduct={eachProduct} />
       ))}
-      <div>{price}</div>
+      <div className="m-5 text-xl font-bold">Subtotal: ${price}</div>
+      <button className="m-5 text-3xl font-bold bg-slate-200 px-16 pt-2 pb-4">Checkout</button>
     </div>
   );
 }
