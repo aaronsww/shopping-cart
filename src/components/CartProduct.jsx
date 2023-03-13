@@ -28,7 +28,8 @@ function CartProduct({ eachProduct }) {
     setLocalPrice(localPrice - eachProduct.price);
     if (localPrice === 0) {
       setCart(
-        cart.filter((eachCartProduct) => eachProduct.id === eachCartProduct)
+        cart.filter((eachCartProduct) => eachProduct.id != eachCartProduct.id)
+        // cart.filter((eachCartProduct) => eachProduct.id === eachCartProduct)
       );
     }
   }
