@@ -1,9 +1,8 @@
 import React from "react";
-import { useState } from "react";
+import backgroundImage from '../img/bg.jpg';
 
 function Home() {
-  return <div className="background-image: url('.img\bg.jpg');">We Are Home</div>;
-  
+  return <div className="bg-cover bg-center h-screen" style={{ backgroundImage: `url(${backgroundImage})` }}> We are home </div>;
 }
 
 export default Home;

@@ -6,6 +6,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import Products from "./components/Products";
+import Contact from "./components/Contact";
 import Cart from "./components/Cart";
 
 function App() {
@@ -36,12 +37,13 @@ function App() {
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home  />} />
         <Route path="/home" element={<Home />} />
         <Route
           path="/products"
           element={<Products onPurchase={addItem} data={product} />}
         />
+           <Route path="/contact" element={<Contact />} />
         <Route
           path="/cart"
           element={

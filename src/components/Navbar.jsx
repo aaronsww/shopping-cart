@@ -1,10 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+// style={{ color: "#d2effd" }}
+// style={{ color: "#e69228" }}
+
 function Navbar() {
   return (
-    <ul className="flex items-center justify-around h-28 border-2">
-      <li className="text-5xl font-extrabold">
+    <ul className="flex items-center justify-around h-28 border-2" >
+      <li className="text-5xl font-extrabold" >
         <Link to="/home">FakeShop</Link>
       </li>
       <div className="flex text-2xl font-bold">
@@ -15,7 +18,7 @@ function Navbar() {
           <Link to="/products">Products</Link>
         </li>
         <li className="ml-16">
-          <Link to="/products">Contact</Link>
+          <Link to="/contact">Contact</Link>
         </li>
         <li className="ml-16">
           <Link to="/cart">Cart</Link>

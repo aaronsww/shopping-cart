@@ -32,23 +32,25 @@ function Products() {
     } else increasePrice(eachProduct.price);
   }
 
-  let displayProducts = [1,2,3,415,16,17,18,19]
+  let displayProducts = [1,2,3,4, 15,16,17,18,19]
   const filteredProducts = products.filter((obj) => displayProducts.includes(obj.id));
 
   return (
-    <div className="flex flex-wrap">
+    <div className="ml-20 justify-center flex flex-wrap">
       {filteredProducts.map((eachProduct) => (
-        <div className=" m-5 p-5 w-72 bg-sky-300">
-          <img className=" h-40" src={eachProduct.image} alt="" />
+        <div className="flex flex-col justify-around m-5 p-5 w-72 border-2 rounded-2xl">
+          <img className="self-center w-32 h-40" src={eachProduct.image} alt="" />
           <ul>
-            <li> name: {eachProduct.title}</li>
-            <li> price: ${eachProduct.price}</li>
-            <h3
-              className="text-xl font-bold"
-              onClick={() => addToCart(eachProduct)}
-            >
-              Add to Cart
-            </h3>
+            <li className="text-sm">{eachProduct.title}</li>
+            <div className="flex justify-between">
+              <li className="text-xl font-bold">${eachProduct.price}</li>
+              <h3
+                className="font-bold mt-1"
+                onClick={() => addToCart(eachProduct)}
+              >
+                Add to Cart
+              </h3>
+            </div>
           </ul>
         </div>
       ))}
