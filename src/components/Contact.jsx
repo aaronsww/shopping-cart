@@ -1,5 +1,4 @@
 import React from "react";
-import backgroundImage from "../img/bg2.jpg";
 
 function Contact() {
   return (

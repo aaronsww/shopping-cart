@@ -24,7 +24,7 @@ function Products() {
         console.log(err);
       });
   }, []);
-
+  
   function addToCart(eachProduct) {
     if (!cart.find((item) => item.id === eachProduct.id)) {
       setCart([...cart, eachProduct]);
@@ -53,7 +53,7 @@ function Products() {
               <div className="flex justify-between">
                 <li className=" text-xl font-bold">${eachProduct.price}</li>
                 <h3
-                  className=" cursor-pointer font-bold mt-1 transform transition duration-300 hover:scale-125 hover:text-amber-700"
+                  className=" cursor-pointer font-bold mt-1 transform transition duration-300 hover:scale-125 hover:text-red-500"
                   onClick={() => addToCart(eachProduct)}
                 >
                   Add to Cart
