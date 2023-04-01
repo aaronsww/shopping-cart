@@ -14,16 +14,17 @@ const useCartStore = create((set) => ({
     })),
   price: 0,
   increasePrice: (addedPrice) =>
-    set((state) => ({ price: state.price + addedPrice })),
-  // set((state) => ({
-  //   price: parseFloat((state.price + addedPrice.price).toFixed(2)),
-  // })),
+    // set((state) => ({ price: state.price + addedPrice })),
+    set((state) => ({
+      price: parseFloat((state.price + addedPrice).toFixed(2)),
+    })),
 
   decreasePrice: (addedPrice) =>
-    set((state) => ({ price: state.price - addedPrice })),
-  // set((state) => ({
-  //   price: parseFloat((state.price - addedPrice.price).toFixed(2)),
-  // })),
+    // set((state) => ({ price: state.price - addedPrice })),
+    set((state) => ({
+      price: parseFloat((state.price - addedPrice).toFixed(2)),
+    })),
+
 }));
 
 export default useCartStore;

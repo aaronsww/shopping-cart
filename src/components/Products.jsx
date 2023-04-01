@@ -24,7 +24,7 @@ function Products() {
         console.log(err);
       });
   }, []);
-  
+
   function addToCart(eachProduct) {
     if (!cart.find((item) => item.id === eachProduct.id)) {
       setCart([...cart, eachProduct]);
@@ -39,8 +39,10 @@ function Products() {
 
   return (
     <div>
-       <h1 className="flex justify-center text-4xl font-thin my-5">Featured Collection</h1>
-      <div className="ml-20 justify-center flex flex-wrap" >
+      <h1 className="flex justify-center text-4xl font-thin my-5">
+        Featured Collection
+      </h1>
+      <div className="ml-20 justify-center flex flex-wrap">
         {filteredProducts.map((eachProduct) => (
           <div className="flex flex-col justify-around m-5 p-5 w-72 border-2 rounded-2xl transform transition duration-500 hover:scale-110 ">
             <img
