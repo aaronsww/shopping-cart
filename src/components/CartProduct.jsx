@@ -24,10 +24,10 @@ function CartProduct({ eachProduct }) {
       console.log(price);
       console.log(localPrice);
     } else {
-      increasePrice(eachProduct.price);
-      // increasePrice(parseFloat(eachProduct.price.toFixed(2)));
-      setLocalPrice(localPrice + eachProduct.price);
-      // setLocalPrice(parseFloat((localPrice + eachProduct.price).toFixed(2)));
+      // increasePrice(eachProduct.price);
+      increasePrice(parseFloat(eachProduct.price.toFixed(2)));
+      // setLocalPrice(localPrice + eachProduct.price);
+      setLocalPrice(parseFloat((localPrice + eachProduct.price).toFixed(2)));
       console.log(price);
       console.log(localPrice);
     }
