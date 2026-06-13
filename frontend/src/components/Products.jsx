@@ -1,23 +1,14 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import useCartStore from "../store/useCartStore";
-import axios from "axios";
+import { fetchProducts } from "../services/productService";
+import { addToCart, notifyCartUpdated } from "../services/cartService";
 
 function Products() {
-  const products = useCartStore((state) => state.products);
-  const setProducts = useCartStore((state) => state.setProducts);
-
-  const cart = useCartStore((state) => state.cart);
-  const setCart = useCartStore((state) => state.setCart);
-
-  const price = useCartStore((state) => state.cart);
-  const increasePrice = useCartStore((state) => state.increasePrice);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/products")
+    fetchProducts()
       .then((res) => {
-        console.log(res.data);
         setProducts(res.data);
       })
       .catch((err) => {
@@ -25,11 +16,13 @@ function Products() {
       });
   }, []);
 
-  function addToCart(eachProduct) {
-    if (!cart.find((item) => item.id === eachProduct.id)) {
-      setCart([...cart, eachProduct]);
-      increasePrice(eachProduct.price);
-    } else increasePrice(eachProduct.price);
+  async function handleAddToCart(eachProduct) {
+    try {
+      await addToCart(eachProduct.id, 1);
+      notifyCartUpdated();
+    } catch (err) {
+      console.error("Failed to add item to cart:", err);
+    }
   }
 
   let displayProducts = [1, 2, 3, 4, 15, 16, 17, 18, 19];
@@ -56,7 +49,7 @@ function Products() {
                 <li className=" text-xl font-bold">${eachProduct.price}</li>
                 <h3
                   className=" cursor-pointer font-bold mt-1 transform transition duration-300 hover:scale-125 hover:text-red-500"
-                  onClick={() => addToCart(eachProduct)}
+                  onClick={() => handleAddToCart(eachProduct)}
                 >
                   Add to Cart
                 </h3>
