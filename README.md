@@ -1,27 +1,39 @@
-# Shopping Cart
+# Ecommerce Assignment
 
-<a href="https://shopping-cart-six-blue.vercel.app/">Live Demonstartion.</a>
+A monorepo for an ecommerce coding assignment containing a React frontend and a Spring Boot backend.
 
-## Project Summary
+## Project Structure
 
-This project is a virtual shopping cart built with React and incorporats react-router-dom. It mirrors the functionality of a shopping e-commerce website where users can simulate the experience of shopping online from the comfort of their own device.
+```
+ecommerce-assignment/
+├── frontend/          # React + Vite shopping cart application
+├── backend/           # Spring Boot API (to be implemented)
+├── README.md
+└── .gitignore
+```
 
-### Features:
+## Frontend
 
-- Fetches product details using API
-- Allows users to add products to cart
-- Allows users to increase and decrease the number of each product in cart
-- Allows users to remove products from the cart
-- Uses Zustand for state management
-- Uses React Router DOM for navigation
+The frontend is a React application built with Vite, Tailwind CSS, Zustand, and React Router.
 
-### In Action
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-<img src="images\Vite + React - Brave 20-04-2023 10_57_42.png" alt="">
-<img src="images\Vite + React - Brave 20-04-2023 10_57_49.png" alt="">
-<img src="images\Vite + React - Brave 20-04-2023 10_58_32.png" alt="">
+The dev server runs at `http://localhost:5173` by default.
 
-## Credits
+See [frontend/README.md](frontend/README.md) for feature details and screenshots.
 
-- All icons used are from <a href="https://iconify.design/">iconify.design</a>
-- This <a href="https://www.pexels.com/photo/man-sitting-in-a-basketball-hoop-15786936/">background image</a> is from <a href="https://www.pexels.com/">Pexels</a>
+## Backend
+
+The backend folder is reserved for a Spring Boot application. Add your Spring Boot project here as part of the assignment.
+
+## Scripts
+
+| Location   | Command           | Description              |
+|------------|-------------------|--------------------------|
+| `frontend` | `npm run dev`     | Start development server |
+| `frontend` | `npm run build`   | Production build         |
+| `frontend` | `npm run preview` | Preview production build |
