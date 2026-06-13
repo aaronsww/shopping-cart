@@ -14,13 +14,13 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("https://fakestoreapi.com/products")
+      .get("http://localhost:8080/api/products")
       .then((res) => {
         console.log(res.data);
         setProduct(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.error("Failed to fetch products from backend:", err);
       });
   }, []);
 

@@ -15,13 +15,13 @@ function Products() {
 
   useEffect(() => {
     axios
-      .get("https://fakestoreapi.com/products")
+      .get("http://localhost:8080/api/products")
       .then((res) => {
         console.log(res.data);
         setProducts(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.error("Failed to fetch products from backend:", err);
       });
   }, []);
 
@@ -47,7 +47,7 @@ function Products() {
           <div className="flex flex-col justify-around m-5 p-5 w-72 border-2 rounded-2xl transform transition duration-500 hover:scale-110 ">
             <img
               className="self-center w-32 h-40"
-              src={eachProduct.image}
+              src={eachProduct.imageUrl}
               alt=""
             />
             <ul>
