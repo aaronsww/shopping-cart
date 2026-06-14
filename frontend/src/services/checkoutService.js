@@ -1,13 +1,13 @@
 import axios from "axios";
 import { API_BASE, CUSTOMER_ID } from "../config/constants";
 
-const checkoutPayload = () => ({
+const checkoutPayload = (discountCode) => ({
   customerId: CUSTOMER_ID,
-  discountCode: null,
+  discountCode: discountCode || null,
 });
 
-export const checkoutPreview = () =>
-  axios.post(`${API_BASE}/api/checkout/preview`, checkoutPayload());
+export const checkoutPreview = (discountCode) =>
+  axios.post(`${API_BASE}/api/checkout/preview`, checkoutPayload(discountCode));
 
-export const checkoutConfirm = () =>
-  axios.post(`${API_BASE}/api/checkout/confirm`, checkoutPayload());
+export const checkoutConfirm = (discountCode) =>
+  axios.post(`${API_BASE}/api/checkout/confirm`, checkoutPayload(discountCode));

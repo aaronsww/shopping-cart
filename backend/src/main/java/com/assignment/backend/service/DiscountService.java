@@ -6,9 +6,10 @@ import com.assignment.backend.repository.DiscountCodeRepository;
 import com.assignment.backend.repository.OrderRepository;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Comparator;
 import java.util.Optional;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class DiscountService {
@@ -23,42 +24,46 @@ public class DiscountService {
         this.orderRepository = orderRepository;
     }
 
-    public boolean isValidManualCode(String code) {
-        return findValidManualCode(code).isPresent();
-    }
-
-    // for future, in case we want to support manual additions
-    public Optional<DiscountCode> findValidManualCode(String code) {
-        if (code == null || code.isBlank()) {
-            return Optional.empty();
+    public DiscountResult resolveDiscount(BigDecimal subtotal, Long customerId, String discountCode) {
+        if (discountCode == null || discountCode.isBlank()) {
+            return DiscountResult.none(subtotal);
         }
 
-        return discountCodeRepository.findByCode(code.trim())
-                .filter(DiscountCode::isActive)
-                .filter(discount -> discount.getEveryNthOrder() == null);
-    }
+        String trimmedCode = discountCode.trim();
+        DiscountCode discount = discountCodeRepository.findByCode(trimmedCode)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST,
+                        notFoundMessage(trimmedCode)));
 
-    public Optional<DiscountCode> findEligibleNthOrderDiscount(Long customerId) {
-        long nextOrderNumber = orderRepository.countByCustomerId(customerId) + 1;
-
-        return discountCodeRepository.findByActiveTrueAndEveryNthOrderIsNotNull().stream()
-                .filter(discount -> nextOrderNumber % discount.getEveryNthOrder() == 0)
-                .max(Comparator.comparing(DiscountCode::getPercentage));
-    }
-
-    public DiscountResult resolveDiscount(BigDecimal subtotal, Long customerId, String manualCode) {
-        Optional<DiscountCode> manualDiscount = findValidManualCode(manualCode);
-        if (manualDiscount.isPresent()) {
-            return applyDiscount(subtotal, manualDiscount.get());
+        if (!discount.isActive()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    inactiveMessage(trimmedCode));
         }
 
-        // for the nth discount code of that particular customer 
-        Optional<DiscountCode> nthOrderDiscount = findEligibleNthOrderDiscount(customerId);
-        if (nthOrderDiscount.isPresent()) {
-            return applyDiscount(subtotal, nthOrderDiscount.get());
+        if (discount.getEveryNthOrder() != null) {
+            long nextOrderNumber = orderRepository.countByCustomerId(customerId) + 1;
+            if (nextOrderNumber % discount.getEveryNthOrder() != 0) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST,
+                        wrongOrderMessage(trimmedCode, discount.getEveryNthOrder(), nextOrderNumber));
+            }
         }
 
-        return DiscountResult.none(subtotal);
+        return applyDiscount(subtotal, discount);
+    }
+
+    static String notFoundMessage(String code) {
+        return "We couldn't find a discount code matching \"" + code
+                + "\". Please check the spelling and try again.";
+    }
+
+    static String inactiveMessage(String code) {
+        return "\"" + code + "\" is no longer active. It may have expired or been deactivated.";
+    }
+
+    static String wrongOrderMessage(String code, int everyNthOrder, long nextOrderNumber) {
+        return "\"" + code + "\" is not eligible.";
     }
 
     public DiscountResult applyDiscount(BigDecimal subtotal, DiscountCode discountCode) {
