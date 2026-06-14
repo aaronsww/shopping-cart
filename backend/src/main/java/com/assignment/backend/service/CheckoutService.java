@@ -35,6 +35,7 @@ public class CheckoutService {
                 this.discountService = discountService;
         }
 
+        // for the auto application of a potential discount 
         @Transactional(readOnly = true)
         public CheckoutPreviewResponse checkoutPreview(Long customerId, String discountCode) {
                 CartCheckoutContext context = loadCartCheckoutContext(customerId);
@@ -50,6 +51,7 @@ public class CheckoutService {
                                 discount.appliedDiscountCode());
         }
 
+        // actual checkout flow
         @Transactional
         public CheckoutResponse checkoutConfirm(Long customerId, String discountCode) {
                 CartCheckoutContext context = loadCartCheckoutContext(customerId);

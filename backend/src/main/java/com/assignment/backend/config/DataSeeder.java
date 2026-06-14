@@ -25,6 +25,7 @@ public class DataSeeder implements CommandLineRunner {
                 productRepository.saveAll(sampleProducts());
         }
 
+        // used data from an old api I was using in my frontend 
         private List<Product> sampleProducts() {
                 return List.of(
                                 product("Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops", "109.95",
