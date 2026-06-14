@@ -1,26 +1,24 @@
 import axios from "axios";
+import { API_BASE, CUSTOMER_ID } from "../config/constants";
 
-const API_BASE = "http://localhost:8080/api/cart";
-export const CUSTOMER_ID = 1;
+const CART_BASE = `${API_BASE}/api/cart`;
 
-export const fetchCart = () => axios.get(`${API_BASE}/${CUSTOMER_ID}`);
+export { CUSTOMER_ID };
+
+export const fetchCart = () => axios.get(`${CART_BASE}/${CUSTOMER_ID}`);
 
 export const addToCart = (productId, quantity = 1) =>
-  axios.post(`${API_BASE}/add`, {
+  axios.post(`${CART_BASE}/add`, {
     customerId: CUSTOMER_ID,
     productId,
     quantity,
   });
 
 export const removeFromCart = (productId) =>
-  axios.delete(`${API_BASE}/remove`, {
-    params: { customerId: CUSTOMER_ID, productId },
-  });
+  axios.delete(`${CART_BASE}/${CUSTOMER_ID}/item/${productId}`);
 
 export const clearCart = () =>
-  axios.delete(`${API_BASE}/clear`, {
-    params: { customerId: CUSTOMER_ID },
-  });
+  axios.delete(`${CART_BASE}/${CUSTOMER_ID}/clear`);
 
 export const getCartItemCount = async () => {
   const res = await fetchCart();

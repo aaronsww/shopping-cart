@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -36,16 +35,16 @@ public class CartController {
                 request.quantity());
     }
 
-    @DeleteMapping("/remove")
+    @DeleteMapping("/{customerId}/item/{productId}")
     public ResponseEntity<Void> removeItem(
-            @RequestParam Long customerId,
-            @RequestParam Long productId) {
+            @PathVariable Long customerId,
+            @PathVariable Long productId) {
         cartService.removeItem(customerId, productId);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/clear")
-    public ResponseEntity<Void> clearCart(@RequestParam Long customerId) {
+    @DeleteMapping("/{customerId}/clear")
+    public ResponseEntity<Void> clearCart(@PathVariable Long customerId) {
         cartService.clearCart(customerId);
         return ResponseEntity.ok().build();
     }
