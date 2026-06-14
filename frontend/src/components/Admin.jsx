@@ -100,6 +100,32 @@ function Admin() {
         ) : (
           <p className="text-slate-500 text-sm">Loading stats...</p>
         )}
+
+        {stats?.discountUsage?.length > 0 && (
+          <div className="mt-6">
+            <h3 className="text-sm font-semibold text-slate-700 mb-3">
+              Discount Codes Used
+            </h3>
+            <ul className="divide-y divide-slate-100 border border-slate-200 rounded-lg overflow-hidden">
+              {stats.discountUsage.map((usage) => (
+                <li
+                  key={usage.code}
+                  className="flex justify-between items-center px-4 py-3 text-sm bg-white"
+                >
+                  <div>
+                    <span className="font-mono font-semibold">{usage.code}</span>
+                    <span className="text-slate-500 ml-2">
+                      used {usage.usageCount} time{usage.usageCount === 1 ? "" : "s"}
+                    </span>
+                  </div>
+                  <span className="font-semibold text-green-700">
+                    -${usage.totalDiscount}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </section>
 
       <section className="border border-slate-200 rounded-xl p-6">

@@ -13,8 +13,10 @@ import jakarta.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class CheckoutService {
@@ -35,9 +37,14 @@ public class CheckoutService {
                 this.discountService = discountService;
         }
 
-        // for the auto application of a potential discount 
         @Transactional(readOnly = true)
         public CheckoutPreviewResponse checkoutPreview(Long customerId, String discountCode) {
+                if (!hasDiscountCode(discountCode)) {
+                        throw new ResponseStatusException(
+                                        HttpStatus.BAD_REQUEST,
+                                        "Discount code is required.");
+                }
+
                 CartCheckoutContext context = loadCartCheckoutContext(customerId);
                 DiscountResult discount = discountService.resolveDiscount(
                                 context.subtotal(),
@@ -51,20 +58,17 @@ public class CheckoutService {
                                 discount.appliedDiscountCode());
         }
 
-        // actual checkout flow
         @Transactional
         public CheckoutResponse checkoutConfirm(Long customerId, String discountCode) {
                 CartCheckoutContext context = loadCartCheckoutContext(customerId);
-                DiscountResult discount = discountService.resolveDiscount(
-                                context.subtotal(),
-                                customerId,
-                                discountCode);
+                DiscountResult discount = resolveDiscount(context.subtotal(), customerId, discountCode);
 
                 Order order = orderRepository.save(
                                 Order.builder()
                                                 .customerId(customerId)
                                                 .subtotal(context.subtotal())
                                                 .discountAmount(discount.discountAmount())
+                                                .appliedDiscountCode(discount.appliedDiscountCode())
                                                 .total(discount.finalAmount())
                                                 .itemCount(context.itemCount())
                                                 .createdAt(LocalDateTime.now())
@@ -102,6 +106,18 @@ public class CheckoutService {
                                 .sum();
 
                 return new CartCheckoutContext(cart, subtotal, itemCount);
+        }
+
+        private DiscountResult resolveDiscount(BigDecimal subtotal, Long customerId, String discountCode) {
+                if (!hasDiscountCode(discountCode)) {
+                        return DiscountResult.none(subtotal);
+                }
+
+                return discountService.resolveDiscount(subtotal, customerId, discountCode);
+        }
+
+        private boolean hasDiscountCode(String discountCode) {
+                return discountCode != null && !discountCode.isBlank();
         }
 
         private String resolveRewardCoupon(String appliedDiscountCode, Long orderId) {

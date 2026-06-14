@@ -23,7 +23,8 @@ public class AdminStatsService {
                 totalRevenue != null ? totalRevenue : BigDecimal.ZERO,
                 orderRepository.count(),
                 totalItemsSold != null ? totalItemsSold : 0L,
-                totalDiscountsGiven != null ? totalDiscountsGiven : BigDecimal.ZERO
+                totalDiscountsGiven != null ? totalDiscountsGiven : BigDecimal.ZERO,
+                orderRepository.getDiscountUsageStats()
         );
     }
 }

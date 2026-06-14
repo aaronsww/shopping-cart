@@ -37,6 +37,8 @@ public class Order {
     @Column(nullable = false)
     private BigDecimal discountAmount;
 
+    private String appliedDiscountCode;
+
     @Column(nullable = false)
     private BigDecimal total;
 

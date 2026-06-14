@@ -74,19 +74,21 @@ function Cart() {
 
   async function handleApplyDiscount(e) {
     e.preventDefault();
+
+    const code = discountInput.trim();
+    if (!code) {
+      return;
+    }
+
     setPreviewLoading(true);
     setPreviewError(null);
     setPreview(null);
     setAppliedCode(null);
 
-    const code = discountInput.trim() || null;
-
     try {
       const res = await checkoutPreview(code);
       setPreview(res.data);
-      if (code) {
-        setAppliedCode(code);
-      }
+      setAppliedCode(code);
     } catch (err) {
       const message =
         err.response?.data?.message ||
@@ -125,9 +127,8 @@ function Cart() {
     }
   }
 
-  const hasDiscount = preview && Number(preview.discountAmount) > 0;
-  const subtotal = preview?.subtotal ?? cart.total;
-  const total = preview?.finalAmount ?? cart.total;
+  const subtotal = preview ? preview.subtotal : cart.total;
+  const total = preview ? preview.finalAmount : cart.total;
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-10">
@@ -194,15 +195,13 @@ function Cart() {
                   <span className="text-slate-600">Subtotal</span>
                   <span>${subtotal}</span>
                 </div>
-                {hasDiscount && (
+                {preview && (
                   <div className="flex justify-between text-green-700">
                     <span>
                       Discount
-                      {preview.appliedDiscountCode && (
-                        <span className="text-slate-500 ml-1">
-                          ({preview.appliedDiscountCode})
-                        </span>
-                      )}
+                      <span className="text-slate-500 ml-1">
+                        ({preview.appliedDiscountCode})
+                      </span>
                     </span>
                     <span>-${preview.discountAmount}</span>
                   </div>
